@@ -57,8 +57,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required', 'string', 'min:11'],
             // 'verification' => ['required', 'int', 'min:4'],
-            // 'img' => ['mimes:jpeg,jpg,png,gif','max:10000'],
-            'img' => ['required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'],
+            'img' => ['mimes:jpeg,jpg,png,gif','max:10000'],
         ]);
     }
 

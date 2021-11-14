@@ -78,9 +78,11 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function edit(Posts $posts)
+    public function edit(Posts $posts , $id)
     {
-        //
+        $edit_post = Posts::find($id);
+        // dd($edit_post->body);
+        return view('posts.edit_posts', compact('edit_post'));
     }
 
     /**
@@ -90,9 +92,32 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Posts $posts)
+    public function update(Request $request, $id)
     {
-        //
+
+        $this->validate($request,[
+            'body' => 'required',
+            // 'file_body' => 'required|mimes:jpeg,png,jpg,gif,|max:1048',
+            'file_body' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $update_posts =  Posts::find($id);
+        $update_posts->body = $request->body;
+        // $update_posts->file_body = $request->file_body;
+        $update_posts->file_body = $update_posts->file_body;
+        $update_posts->user_id = Auth::user()->id;
+        $update_posts->user_img = Auth::user()->img;
+        $update_posts->user_email = Auth::user()->email;
+
+        if($request->hasFile('file_body')){
+            $request->file('file_body')->move('posts/',$request->file('file_body')->getClientOriginalName());
+            $update_posts->file_body  = $request->file('file_body')->getClientOriginalName();
+        }
+
+        $update_posts->save();
+        // dd($update_posts);
+        return redirect()->route('home')->with('success','Data has been Update posts successfully');
+
     }
 
     /**
@@ -101,8 +126,12 @@ class PostsController extends Controller
      * @param  \App\Models\Posts  $posts
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Posts $posts)
+    public function destroy(Request $request, $id)
     {
-        //
+        $post = Posts::find($request->id);
+        unlink("posts/".$post->file_body);
+        Posts::where("id", $post->id)->delete();
+
+        return back()->with("success", "Posts deleted successfully.");
     }
 }

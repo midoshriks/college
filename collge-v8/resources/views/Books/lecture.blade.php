@@ -50,6 +50,17 @@
 
                                                 <div class="col-md-6">
                                                     <div class="form-group has-feedback">
+                                                        <label class="control-label">Url file</label>
+                                                        <input class="form-control @error('url_file') is-invalid @enderror" placeholder="Url File" type="text" name="url_file">
+                                                        <span class="fa fa-link form-control-feedback" aria-hidden="true"></span>
+                                                        @error('url_file')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group has-feedback">
                                                         <label class="control-label">Uploade File</label> <br>
                                                         <label class="custom-file center-block block">
                                                             <input id="file" name="file" class="custom-file-input @error('file') is-invalid @enderror" type="file">
@@ -95,7 +106,7 @@
                                 <th>file name</th>
                                 <th>file </th>
                                 <th>Subject</th>
-                                <th>Status</th>
+                                <th>link</th>
                                 @if(!Auth::guest())
                                     @if(Auth::user()->user_type == 'ADMIN')
                                         <th>Action</th>
@@ -116,7 +127,9 @@
                                     {{-- <a href="{{ asset('/pooks/A4-31 دراسة محاسبية باللغة الإنجليزية.pdf') }}">view</a> --}}
                                 </td>
                                 <td>{{$file->subject}}</td>
-                                <td><span class="label label-success">Activity</span></td>
+                                <td>
+                                    <a href="{{$file->url_file}}"><span class="label label-success">Activity</span></a>
+                                </td>
                                 @if(!Auth::guest())
                                     @if(Auth::user()->user_type == 'ADMIN')
                                     <td>

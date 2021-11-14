@@ -52,6 +52,23 @@
 
                                                 <div class="col-md-6">
                                                     <div class="form-group has-feedback">
+                                                        <label class="control-label">select term</label>
+                                                        <select class="form-control @error('term') is-invalid @enderror" type="text" name="term">
+                                                            <option value="term one">ترم أول </option>
+                                                            <option value="term tow">ترم تانى </option>
+                                                        </select>
+                                                        <span class="fa fa-suitcase form-control-feedback"
+                                                            aria-hidden="true"></span>
+                                                        @error('term')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group has-feedback">
                                                         <label class="control-label">Uploade File</label> <br>
                                                         <label class="custom-file center-block block">
                                                             <input id="file" name="file"
@@ -111,7 +128,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($books_student as $k => $book)
+                            @foreach ($books_student_2 as $k => $book)
 
                                 <tr>
                                     <td>{{ $k + 1 }}</td>
@@ -121,7 +138,7 @@
                                         {{-- <a href="{{ asset('/pooks/A4-31 دراسة محاسبية باللغة الإنجليزية.pdf') }}">view</a> --}}
                                     </td>
                                     <td>{{ $book->book_subject }}</td>
-                                    <td><span class="label label-success">Complete</span></td>
+                                    <td><span class="label label-success">{{$book->term}}</span></td>
                                     @if (!Auth::guest())
                                         @if (Auth::user()->user_type == 'ADMIN')
                                             <td>
@@ -170,7 +187,7 @@
 @push('scripts')
 <script>
     // test
-    swal("Hello world!");
+    // swal("Hello world!");
     // swal("Hello world!");
 </script>
 @endpush

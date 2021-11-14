@@ -31,6 +31,7 @@ class FilesController extends Controller
 
         $files = new Files;
         $files->file_name = $request->file_name;
+        $files->url_file = $request->url_file;
         $files->subject = $request->subject;
         $files->cearte_by = Auth::user()->name;
 
@@ -66,6 +67,7 @@ class FilesController extends Controller
 
         $update_file =  Files::find($id);
         $update_file->file_name = $request->file_name;
+        $update_file->url_file = $request->url_file;
         $update_file->subject = $request->subject;
         $update_file->cearte_by = Auth::user()->name;
 
@@ -148,10 +150,11 @@ class FilesController extends Controller
         //
     }
 
-    public function delete_lecture(Files $files, $id)
+    public function delete_lecture(Request $request, $id)
     {
-        $delete_lecture = Files::find($id);
-        $delete_lecture->delete();
-        return redirect()->route('lecture')->with('delete','Data has been registered Delete');
+        $delete_lecture = Files::find($request->id);
+        unlink("lectures/".$delete_lecture->file);
+        Files::where("id", $delete_lecture->id)->delete();
+        return back()->with("success", "File deleted successfully.");
     }
 }

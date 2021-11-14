@@ -8,7 +8,7 @@
 
         .ui-w-40 {
             width: 40px !important;
-            height: auto;
+            height: 40px;
         }
 
         .default-style .ui-bordered {
@@ -55,7 +55,10 @@
         .card hr {
             border-color: rgba(24, 28, 33, 0.06);
         }
-
+        .card-footer{
+            width: 100%
+            al
+        }
         .ui-rect-content {
             position: absolute !important;
             top: 0 !important;
@@ -66,6 +69,10 @@
 
         .default-style .ui-bordered {
             border: 1px solid rgba(24, 28, 33, 0.06);
+        }
+        .body_post{
+            display: flex;
+            line-break: anywhere;
         }
 
     </style>
@@ -83,6 +90,17 @@
                 <li><i class="fa fa-angle-right"></i> Dashboard </li>
             </ol>
         </div>
+
+        @if(!Auth::guest())
+
+        @if (Auth::user()->user_type == 'ADMIN')
+            <form id="test" action="" method="post" style="display: none;">
+                <textarea name="" id="" cols="30" rows="10">
+                    ddddddddddddd
+                </textarea>
+            </form>
+        @endif
+        @endif
 
         <!-- Main content -->
         <div class="content">
@@ -122,10 +140,10 @@
                                 <!-- /.info-box -->
                             </div>
                             <div class="col-lg-3 col-sm-6 col-xs-12">
-                                <div> <i class="ti-panel f-20 text-info"></i>
+                                <div> <i class="ti-book f-20 text-info"></i>
                                     <div class="info-box-content">
-                                        <h1 class="f-25 text-black">4,250</h1>
-                                        <span class="progress-description">Online Revenue</span>
+                                        <h1 class="f-25 text-black">50</h1>
+                                        <span class="progress-description">Online courses</span>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar bg-info" role="progressbar" aria-valuenow="80"
@@ -139,12 +157,12 @@
                             <div class="col-lg-3 col-sm-6 col-xs-12">
                                 <div> <i class="ti-wallet f-20 text-green"></i>
                                     <div class="info-box-content">
-                                        <h1 class="f-25 text-black">8,350</h1>
-                                        <span class="progress-description">Total Profit</span>
+                                        <h1 class="f-25 text-black">0,0 .ج</h1>
+                                        <span class="progress-description">مجموع رصيدك</span>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar bg-green" role="progressbar" aria-valuenow="80"
-                                            aria-valuemin="0" aria-valuemax="100" style="width:85%; height:6px;">
+                                            aria-valuemin="0" aria-valuemax="100" style="width:1%; height:6px;">
                                             <span class="sr-only">85% Complete</span>
                                         </div>
                                     </div>
@@ -270,11 +288,11 @@
                     {{-- ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp --}}
                     <div class="info-box text-center">
                         @foreach ($show_posts as $show_post )
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <div class="media mb-3">
-                                        <img src="{{asset('img_user/'.$show_post->user_img)}}"
+                                        <img src="{{asset('img_user/'.$show_post->user->img)}}"
                                             class="d-block ui-w-40 rounded-circle" alt="">
                                         <div class="media-body ml-3 mr-3">
                                             <b>
@@ -282,25 +300,41 @@
                                             </b>
                                             <div class="text-muted small">{{$show_post->created_at->format('d-m-Y')}} days ago</div>
                                         </div>
+                                        @if (!Auth::guest())
+                                        @if (Auth::user()->id == $show_post->user->id)
+                                        <div>
+                                            <a href="/edit_posts/{{$show_post->id}}"><big>• • •</big></a> <br>
+                                            Edit
+                                        </div>
+                                        @endif
+                                        @endif
+
+                                    </div>
+                                    <div class="body_post">
+                                        <p>
+                                            {{$show_post->body}}
+                                        </p>
                                     </div>
 
-                                    <p>
-                                        {{$show_post->body}}
-                                    </p>
-                                    <a href="javascript:void(0)" class="ui-rect ui-bg-cover"
+                                        <a href="javascript:void(0)" class="ui-rect ui-bg-cover"
                                         style="background-image: url('{{asset('posts/'.$show_post->file_body)}}');">
                                     </a>
                                 </div>
                                 <div class="card-footer">
                                     <a href="javascript:void(0)" class="d-inline-block text-muted">
-                                        <strong>123</strong> Likes</small>
+                                        <strong>123</strong> Likes <i class=".icon-like"></i></small>
                                     </a>
-                                    <a href="javascript:void(0)" class="d-inline-block text-muted ml-3">
-                                        <strong>12</strong> Comments</small>
+                                    <a href="javascript:void(0)" class="d-inline-block text-muted mr-5">
+                                        <strong>12</strong>  Comments <i class="fa fa- ti-comments"></i></small>
                                     </a>
-                                    <a href="javascript:void(0)" class="d-inline-block text-muted ml-3">
-                                        <small class="align-middle">Repost</small>
-                                    </a>
+                                    @if (!Auth::guest())
+                                        @if (Auth::user()->id == $show_post->user->id)
+                                            <a href="/delete_posts/{{$show_post->id}}" class="d-inline-block text-muted mr-1">
+                                                <small class="align-middle mr-5">delete</small>
+                                                <i class="fa fa- ti-trash"></i>
+                                            </a>
+                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -313,82 +347,90 @@
 
                 </div>
                 <div class="col-lg-4 m-b-3">
-                    <div>
-                        <div class="soci-wid-box bg-twitter m-b-3">
-                            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner" role="listbox">
-                                    <div class="carousel-item">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
+                    {{-- -------------- informtion me ----------------------- --}}
+                    <a href="https://twitter.com/midoshriks?lang=ar" style="color: #FFF;">
+                        <div>
+                            <div class="soci-wid-box bg-twitter m-b-3">
+                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item active carousel-item-left">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item carousel-item-next carousel-item-left">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="carousel-item active carousel-item-left">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item carousel-item-next carousel-item-left">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-twitter-alt"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
-                                        </div>
-                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                        data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a> <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                        data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span> </a>
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
-                                    data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselExampleControls" role="button"
-                                    data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span> </a>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="soci-wid-box bg-facebook m-b-3">
-                            <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner" role="listbox">
-                                    <div class="carousel-item">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-facebook"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
+                    </a>
+
+                    <a href="https://www.facebook.com/mido.shrks" style="color: #FFF;">
+                        <div>
+                            <div class="soci-wid-box bg-facebook m-b-3">
+                                <div id="carouselExampleControls1" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="carousel-item">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-facebook"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-facebook"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item active">
+                                            <div class="col-lg-12 text-center">
+                                                <div class="sco-icon"><i class="ti-facebook"></i></div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
+                                                    odio praesent libero sed cursus ante.</p>
+                                                <p class="text-italic pt-1">- Mido Shriks -</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-facebook"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
-                                        </div>
-                                    </div>
-                                    <div class="carousel-item active">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="sco-icon"><i class="ti-facebook"></i></div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-                                                odio praesent libero sed cursus ante.</p>
-                                            <p class="text-italic pt-1">- John Doe -</p>
-                                        </div>
-                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls1" role="button"
+                                        data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a> <a class="carousel-control-next" href="#carouselExampleControls1" role="button"
+                                        data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span> </a>
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleControls1" role="button"
-                                    data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a> <a class="carousel-control-next" href="#carouselExampleControls1" role="button"
-                                    data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span> </a>
                             </div>
                         </div>
-                    </div>
+                    </a>
+                    {{-- -------------- informtion me ----------------------- --}}
+
                     <div>
                         <!-- Widget: user widget style 1 -->
                         <div class="box box-widget widget-user-2">
@@ -398,7 +440,7 @@
                                 <h5>Checkout my contacts Admins here</h5>
                             </div>
                             <ul class="products-list product-list-in-box">
-                                @foreach ($users as $user)
+                                @foreach ($users2 as $user)
                                     <li class="item">
                                         <div class="product-img"> <img src="{{ asset('img_user/' . $user->img) }}"
                                                 alt="Product Image">
@@ -421,14 +463,14 @@
                                 <h5>Checkout my contacts students here</h5>
                             </div>
                             <ul class="products-list product-list-in-box">
-                                @foreach ($users as $user)
+                                @foreach ($count_students2 as $count_student)
                                     <li class="item">
-                                        <div class="product-img"> <img src="{{ asset('img_user/' . $user->img) }}"
+                                        <div class="product-img"> <img src="{{ asset('img_user/'.$count_student->img) }}"
                                                 alt="Product Image">
                                         </div>
                                         <div class="product-info">
-                                            <a href="#" class="product-title">{{ $user->name }}</a> <span
-                                                class="product-description"> <a href="#">{{ $user->email }}</a> </span>
+                                            <a href="#" class="product-title">{{ $count_student->name }}</a> <span
+                                                class="product-description"> <a href="#">{{ $count_student->email }}</a> </span>
                                         </div>
                                     </li>
                                 @endforeach
@@ -443,3 +485,11 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
+
+@push('scripts')
+<script>
+    // test
+        // swal("Hello world!");
+        // alert("Hello world!");
+</script>
+@endpush

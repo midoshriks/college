@@ -281,20 +281,33 @@
                             <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="/books"> كتب ترم أول رابعة نظم </a></li>
-                            <li><a href="/books_student"> كتب ترم ثاني رابعة نظم </a></li>
+                            <li><a href="/books_student_1"> كتب ترم أول رابعة نظم </a></li>
+                            <li><a href="/books_student_2"> كتب ترم ثاني رابعة نظم </a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="treeview"> <a href="#"> <i class="fa fa-desktop "></i> <span>كورسات</span>
+                            <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="apps-mailbox.html">كورسات مجانية</a></li>
+                            <li><a href="apps-mailbox-detail.html">كورسات مدفوعة</a></li>
+                            {{-- <li><a href="apps-compose-mail.html">Compose Mail</a></li> --}}
                         </ul>
                     </li>
 
                     <li class="treeview"> <a href="#"> <i class="fa fa-envelope-o "></i> <span>Inbox</span>
-                            <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="apps-mailbox.html">Mailbox</a></li>
-                            <li><a href="apps-mailbox-detail.html">Mailbox Detail</a></li>
-                            <li><a href="apps-compose-mail.html">Compose Mail</a></li>
-                        </ul>
+                        <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="apps-mailbox.html">Mailbox</a></li>
+                        <li><a href="apps-mailbox-detail.html">Mailbox Detail</a></li>
+                        <li><a href="apps-compose-mail.html">Compose Mail</a></li>
+                    </ul>
                     </li>
+
+
                     <li class="treeview"> <a href="#"> <i class="fa fa-briefcase"></i> <span>UI Elements</span>
                             <span class="pull-right-container"> <i class="fa fa-angle-left pull-right"></i> </span>
                         </a>

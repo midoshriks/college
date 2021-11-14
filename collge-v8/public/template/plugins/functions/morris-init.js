@@ -77,10 +77,10 @@ Morris.Area({
 Morris.Donut({
       element: 'donut',
       data: [
-        {value: 40, label: 'In-Store Sales'},
-        {value: 25, label: 'Mail-Order Sales'},
-        {value: 20, label: 'Download Sales'},
-        {value: 15, label: 'Latest Order'}
+        {value: 40, label: 'Student'},
+        {value: 25, label: 'courses'},
+        {value: 20, label: 'Download App'},
+        {value: 15, label: 'Admin'}
       ],
       backgroundColor: '#fff',
       labelColor: '#404e67',

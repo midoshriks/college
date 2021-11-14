@@ -14,10 +14,17 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index_1()
     {
-        $books_student = Books::all();
-        return view('Books.books_students', compact('books_student'));
+        // $books_student = Books::all();
+        $books_student_1 = Books::where('term','term one')->get();
+        return view('Books.books_students_1', compact('books_student_1'));
+    }
+    public function index_2()
+    {
+        // $books_student = Books::all();
+        $books_student_2 = Books::where('term','term tow')->get();
+        return view('Books.books_students_2', compact('books_student_2'));
     }
 
     public function uploade_books(Request $request){
@@ -30,6 +37,7 @@ class BooksController extends Controller
 
         $books_student = new Books();
         $books_student->book_name = $request->book_name;
+        $books_student->term = $request->term;
         $books_student->book_subject = $request->book_subject;
         $books_student->cearte_by = Auth::user()->name;
 
@@ -41,8 +49,8 @@ class BooksController extends Controller
 
         // dd($books_student);
 
-        $books_student->update();
-        return redirect()->route('books_student')->with('success','Data has been Uplode File successfully');
+        // $books_student->update();
+        return redirect()->route('books_student_tow')->with('success','Data has been Uplode File successfully');
 
 
         // var_dump($user->name);
@@ -65,6 +73,7 @@ class BooksController extends Controller
 
         $update_books = Books::find($id);
         $update_books->book_name = $request->book_name;
+        $update_books->term = $request->term;
         $update_books->book_subject = $request->book_subject;
         $update_books->cearte_by = Auth::user()->name;
 
@@ -77,9 +86,10 @@ class BooksController extends Controller
         // dd($update_books);
 
         $update_books->update();
-
-
-        return redirect()->route('books_student')->with('success','Data has been Update File successfully');
+        if($update_books->term == 'term one'){
+            return redirect()->route('books_student_1')->with('success','Data has been Update File successfully');
+        }
+        return redirect()->route('books_student_2')->with('success','Data has been Update File successfully');
 
     }
 
@@ -148,10 +158,19 @@ class BooksController extends Controller
     {
         //
     }
-    public function delete_Books(Books $files, $id)
+    public function delete_Books(Request $request, $id)
     {
-        $delete_Books = Books::find($id);
-        $delete_Books->delete();
-        return redirect()->route('books_student')->with('delete','Data has been registered Delete');
+        $book = Books::find($request->id);
+        unlink("3ooks_studunt_2/".$book->books);
+        Books::where("id", $book->id)->delete();
+
+        return back()->with("success", "Book deleted successfully.");
     }
+
+    // public function delete_Books(Books $files, $id)
+    // {
+    //     $delete_Books = Books::find($id);
+    //     $delete_Books->delete();
+    //     return redirect()->route('books_student')->with('delete','Data has been registered Delete');
+    // }
 }

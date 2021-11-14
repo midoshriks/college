@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    public function condition(){
+        return view('auth.condition');
+    }
+
+    public function accept_condition(Request $request, $id){
+        $accept_condition = User::find($id);
+        $accept_condition->rights =  $request->rights;
+        $accept_condition->save();
+        // dd($accept_condition);
+
+        return redirect()->route('home')->with('success','Register successfully');
+    }
+
+
     /**
      * Display a listing of the resource.
      *

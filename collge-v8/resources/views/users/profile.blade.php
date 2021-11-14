@@ -239,12 +239,12 @@
 
                                         </div>
                                     </div>
-                                    
+
                                     <div class="tab-pane" id="settings" role="tabpanel">
                                         <div class="card-body">
                                             <form class="form-horizontal form-material" action="/updata_user/{{Auth::user()->id}}" method="POST" enctype="multipart/form-data">
                                                 @csrf
-                                                
+
                                                 <div class="form-group">
                                                     <label class="col-md-12">Full Name</label>
                                                     <div class="col-md-12">
@@ -327,7 +327,8 @@
                                                 <div class="form-group">
                                                     <label class="col-md-12">Password</label>
                                                     <div class="col-md-12">
-                                                        <input id="password"  value="{{Auth::user()->password}}" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                                        {{-- <input id="password"  value="{{Auth::user()->password}}" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password"> --}}
+                                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required >
 
                                                         @error('password')
                                                             <span class="invalid-feedback" role="alert">

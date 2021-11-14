@@ -30,6 +30,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/condition', [App\Http\Controllers\ProfileController::class, 'condition'])->name('condition');
+Route::post('/accept_condition/{id}', [App\Http\Controllers\ProfileController::class, 'accept_condition'])->name('accept_condition');
+// acssepted user usrl
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // profile->user
 Route::get('/users/{id}', [ProfileController::class, 'index'])->name('profile');
@@ -51,7 +54,9 @@ Route::get('delete_lecture/{id}', [FilesController::class, 'delete_lecture'])->n
 
 
 // books student
-Route::get('/books_student', [BooksController::class, 'index'])->name('books_student')->middleware('auth');
+Route::get('/books_student_1', [BooksController::class, 'index_1'])->name('books_student_1')->middleware('auth');
+Route::get('/books_student_2', [BooksController::class, 'index_2'])->name('books_student_2')->middleware('auth');
+
 Route::post('/uploade_books', [BooksController::class, 'uploade_books'])->name('uploade_books');
 // Edit file Books
 Route::get('/edit_books/{id}', [BooksController::class, 'edit_books'])->name('edit_books');
@@ -61,6 +66,9 @@ Route::get('delete_Books/{id}', [BooksController::class, 'delete_Books'])->name(
 
 // create posts
 Route::post('/create_posts', [PostsController::class, 'create'])->name('create_posts');
+Route::get('/edit_posts/{id}', [PostsController::class, 'edit'])->name('edit_posts');
+Route::post('/update_posts/{id}', [PostsController::class, 'update'])->name('update_posts');
+Route::get('/delete_posts/{id}', [PostsController::class, 'destroy'])->name('delete_posts');
 
 
 
